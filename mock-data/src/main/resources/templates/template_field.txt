@@ -1,0 +1,5 @@
+    /**
+    * ${comment}
+    */
+    @DataValue(columnName = "${columnName}")
+    private ${fieldType} ${fieldName};

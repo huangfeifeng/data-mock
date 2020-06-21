@@ -1,0 +1,17 @@
+package ${package};
+
+import lombok.Data;
+import com.person.hff.mockdata.annotation.NormalData;
+import com.person.hff.mockdata.annotation.DataValue;
+
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+@Data
+@NormalData("${tableName}")
+public class ${className} {
+
+${body}
+
+}
