@@ -1,5 +1,6 @@
 package com.person.hff.mockdata.annotation.define;
 
+import com.person.hff.mockdata.annotation.data.AbstractGenerator;
 import lombok.Data;
 
 @Data
@@ -13,5 +14,5 @@ public class DataItem {
 
     private String value;
 
-    private Class generatorClass;
+    private AbstractGenerator generator;
 }

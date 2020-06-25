@@ -4,9 +4,9 @@ import com.person.hff.mockdata.utils.DateUtil;
 
 import java.util.Date;
 
-public class DefaultDateGenerator implements DateGenerator {
+public class DefaultDateGenerator extends AbstractGenerator implements DateGenerator {
     @Override
-    public Date generate() {
+    public Date generate(String type) {
         return DateUtil.nowDate();
     }
 }

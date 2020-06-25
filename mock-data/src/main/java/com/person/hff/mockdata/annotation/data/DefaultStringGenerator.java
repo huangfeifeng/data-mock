@@ -2,9 +2,9 @@ package com.person.hff.mockdata.annotation.data;
 
 import com.person.hff.mockdata.utils.UUIDUtil;
 
-public class DefaultStringGenerator implements StringGenerator {
+public class DefaultStringGenerator extends AbstractGenerator implements StringGenerator {
     @Override
-    public String generate() {
+    public String generate(String type) {
         return UUIDUtil.uuid();
     }
 }

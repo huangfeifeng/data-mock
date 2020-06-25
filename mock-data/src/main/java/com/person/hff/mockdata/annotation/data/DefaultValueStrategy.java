@@ -16,26 +16,26 @@ public class DefaultValueStrategy implements ValueStrategy {
 
     @Override
     public Integer generateInteger() {
-        return integerGenerator.generate();
+        return integerGenerator.generate(null);
     }
 
     @Override
     public Long generateLong() {
-        return longGenerator.generate();
+        return longGenerator.generate(null);
     }
 
     @Override
     public BigDecimal generateBigDecimal() {
-        return bigDecimalGenerator.generate();
+        return bigDecimalGenerator.generate(null);
     }
 
     @Override
     public Date generateDate() {
-        return dateGenerator.generate();
+        return dateGenerator.generate(null);
     }
 
     @Override
     public String generateString() {
-        return stringGenerator.generate();
+        return stringGenerator.generate(null);
     }
 }

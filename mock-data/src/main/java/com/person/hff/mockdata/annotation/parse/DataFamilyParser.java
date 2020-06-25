@@ -2,18 +2,16 @@ package com.person.hff.mockdata.annotation.parse;
 
 import com.person.hff.mockdata.annotation.DataValue;
 import com.person.hff.mockdata.annotation.NormalData;
+import com.person.hff.mockdata.annotation.data.AbstractGenerator;
+import com.person.hff.mockdata.annotation.data.DefaultGenerator;
 import com.person.hff.mockdata.annotation.define.DataFamily;
 import com.person.hff.mockdata.annotation.define.DataItem;
 import com.person.hff.mockdata.annotation.data.DefaultValueStrategy;
 import com.person.hff.mockdata.annotation.data.ValueStrategy;
-import com.person.hff.mockdata.generator.ConnectionUtil;
 import com.person.hff.mockdata.utils.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.*;
 
 @Slf4j
@@ -76,6 +74,14 @@ public class DataFamilyParser {
                     String dataStr = dataValue.value();
                     dataItem.setValue(dataStr);
                     dataItem.setColumnName(dataValue.columnName());
+                    Class<? extends AbstractGenerator> generatorClass = dataValue.generator();
+                    AbstractGenerator generator = new DefaultGenerator();
+                    try {
+                        generator = generatorClass.newInstance();
+                    } catch (InstantiationException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                    dataItem.setGenerator(generator);
                 }
             }
             System.out.println(dataFamily);

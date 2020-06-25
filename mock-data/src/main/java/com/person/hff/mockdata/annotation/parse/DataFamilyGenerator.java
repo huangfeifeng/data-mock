@@ -1,5 +1,6 @@
 package com.person.hff.mockdata.annotation.parse;
 
+import com.person.hff.mockdata.annotation.data.AbstractGenerator;
 import com.person.hff.mockdata.annotation.data.ValueStrategy;
 import com.person.hff.mockdata.annotation.define.DataFamily;
 import com.person.hff.mockdata.annotation.define.DataItem;
@@ -7,6 +8,7 @@ import com.person.hff.mockdata.entities.Alarm;
 import com.person.hff.mockdata.generator.ConnectionUtil;
 import com.person.hff.mockdata.utils.ClassScanner;
 import com.person.hff.mockdata.utils.Constant;
+import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -62,7 +64,7 @@ public class DataFamilyGenerator {
 
     public static Map<String, Object> generateDataMap(DataFamily dataFamily) {
         Class clazz = dataFamily.getClazz();
-        ValueStrategy valueStrategy = dataFamily.getValueStrategy();
+        //ValueStrategy valueStrategy = dataFamily.getValueStrategy();
         Map<String, DataItem> dataItemMap = dataFamily.getDataItemMap();
 
         Field[] declaredFields = clazz.getDeclaredFields();
@@ -71,16 +73,28 @@ public class DataFamilyGenerator {
         for (Field f : declaredFields) {
             String fieldTypeName = f.getType().getSimpleName();
             String fieldName = f.getName();
-
-            Object v = generateRandom(valueStrategy, fieldTypeName);
-
             DataItem dataItem = dataItemMap.get(fieldName);
+            String columnName = dataItem.getColumnName();
+            if(Constant.ID.equals(columnName.toLowerCase())) {
+                continue;
+            }
+            String value = dataItem.getValue();
+            AbstractGenerator generator = dataItem.getGenerator();
+
+            //Object v = generateRandom(valueStrategy, fieldTypeName);
+            Object v;
+            if(StringUtils.isEmpty(value)) {
+                v = generator.generate(fieldTypeName);
+            } else {
+                v = value;
+            }
+
             if(v instanceof Date) {
                 Date date = (Date)v;
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 v = simpleDateFormat.format(date);
             }
-            dataMap.put(dataItem.getColumnName(), v);
+            dataMap.put(columnName, v);
 
         }
 
