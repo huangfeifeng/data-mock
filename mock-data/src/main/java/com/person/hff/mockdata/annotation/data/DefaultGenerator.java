@@ -21,4 +21,12 @@ public class DefaultGenerator extends AbstractGenerator {
     public Object generate(String type) {
         return generatorMap.get(type).generate(type);
     }
+
+    private static DefaultGenerator instance = new DefaultGenerator();
+
+    private DefaultGenerator() {}
+
+    public static DefaultGenerator getInstance() {
+        return instance;
+    }
 }

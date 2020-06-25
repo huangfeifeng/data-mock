@@ -18,6 +18,9 @@ import java.util.*;
 public class DataFamilyParser {
 
 
+    private static DefaultGenerator defaultGenerator = DefaultGenerator.getInstance();
+
+    private static DefaultValueStrategy defaultValueStrategy = DefaultValueStrategy.getInstance();
 
     public static void main(String[] args) {
         String packagePath =  "com.person.hff.mockdata.entities";
@@ -43,11 +46,13 @@ public class DataFamilyParser {
             dataFamily.setTableName(value);
 
             Class<? extends ValueStrategy> valueStrategyClass = normalData.valueStrategy();
-            ValueStrategy valueStrategy = new DefaultValueStrategy();
-            try {
-                valueStrategy = valueStrategyClass.newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
-                e.printStackTrace();
+            ValueStrategy valueStrategy = defaultValueStrategy;
+            if(!valueStrategyClass.getSimpleName().equals(DefaultValueStrategy.class.getSimpleName())) {
+                try {
+                    valueStrategy = valueStrategyClass.newInstance();
+                } catch (InstantiationException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
             dataFamily.setValueStrategy(valueStrategy);
 
@@ -75,11 +80,13 @@ public class DataFamilyParser {
                     dataItem.setValue(dataStr);
                     dataItem.setColumnName(dataValue.columnName());
                     Class<? extends AbstractGenerator> generatorClass = dataValue.generator();
-                    AbstractGenerator generator = new DefaultGenerator();
-                    try {
-                        generator = generatorClass.newInstance();
-                    } catch (InstantiationException | IllegalAccessException e) {
-                        e.printStackTrace();
+                    AbstractGenerator generator = defaultGenerator;
+                    if(!generatorClass.getSimpleName().equals(DefaultGenerator.class.getSimpleName())) {
+                        try {
+                            generator = generatorClass.newInstance();
+                        } catch (InstantiationException | IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
                     }
                     dataItem.setGenerator(generator);
                 }

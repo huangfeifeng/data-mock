@@ -1,5 +1,6 @@
 package com.person.hff.mockdata.entities;
 
+import com.person.hff.mockdata.annotation.data.custom.CustomStringGenerator;
 import com.person.hff.mockdata.annotation.data.custom.CustomValueStrategy;
 import lombok.Data;
 import com.person.hff.mockdata.annotation.NormalData;
@@ -51,7 +52,7 @@ public class Alarm {
     /**
     * 
     */
-    @DataValue(columnName = "CameraList")
+    @DataValue(columnName = "CameraList", generator = CustomStringGenerator.class)
     private String CameraList;
     /**
     * 

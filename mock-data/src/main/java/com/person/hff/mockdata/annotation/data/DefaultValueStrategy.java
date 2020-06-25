@@ -38,4 +38,13 @@ public class DefaultValueStrategy implements ValueStrategy {
     public String generateString() {
         return stringGenerator.generate(null);
     }
+
+    private static DefaultValueStrategy instance = new DefaultValueStrategy();
+
+    private DefaultValueStrategy() {
+    }
+
+    public static DefaultValueStrategy getInstance() {
+        return instance;
+    }
 }
