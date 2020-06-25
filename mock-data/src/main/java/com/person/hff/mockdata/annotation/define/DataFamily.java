@@ -1,8 +1,10 @@
 package com.person.hff.mockdata.annotation.define;
 
+import com.person.hff.mockdata.annotation.data.ValueStrategy;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class DataFamily {
@@ -13,5 +15,5 @@ public class DataFamily {
 
     private ValueStrategy valueStrategy;
 
-    private List<DataItem> dataItemList;
+    private Map<String, DataItem> dataItemMap;
 }

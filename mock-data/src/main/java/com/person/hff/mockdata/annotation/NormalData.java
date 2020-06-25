@@ -1,7 +1,7 @@
 package com.person.hff.mockdata.annotation;
 
-import com.person.hff.mockdata.annotation.define.DefaultValueStrategy;
-import com.person.hff.mockdata.annotation.define.ValueStrategy;
+import com.person.hff.mockdata.annotation.data.DefaultValueStrategy;
+import com.person.hff.mockdata.annotation.data.ValueStrategy;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

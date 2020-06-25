@@ -1,6 +1,6 @@
 package com.person.hff.mockdata.entities;
 
-import com.person.hff.mockdata.annotation.define.CustomValueStrategy;
+import com.person.hff.mockdata.annotation.data.custom.CustomValueStrategy;
 import lombok.Data;
 import com.person.hff.mockdata.annotation.NormalData;
 import com.person.hff.mockdata.annotation.DataValue;

@@ -1,9 +1,8 @@
-package com.person.hff.mockdata.annotation.define;
+package com.person.hff.mockdata.annotation.data.custom;
 
-import com.person.hff.mockdata.utils.DateUtil;
+import com.person.hff.mockdata.annotation.data.ValueStrategy;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 

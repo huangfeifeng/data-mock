@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -128,7 +129,7 @@ public class CommonDao {
     public List<Object> select(String tableName, List<Map<String, Object>> data, DataFamily dataFamily) {
 
         //final Class clazz = dataFamily.getClazz();
-        final List<DataItem> dataItemList = dataFamily.getDataItemList();
+        final Map<String, DataItem> dataItemMap = dataFamily.getDataItemMap();
 
         Map<String, Object> dataMap = data.get(0);
 
@@ -156,24 +157,31 @@ public class CommonDao {
         List<Object> list = jdbcTemplate.query(sb.toString(), params, new RowMapper<Object>() {
             @Override
             public Object mapRow(ResultSet resultSet, int i) throws SQLException {
+
                 Map<String, Object> resultMap = new HashMap<>();
-                for(int index=0; index<dataItemList.size(); index++) {
-                    DataItem dataItem = dataItemList.get(index);
+
+                Set<Map.Entry<String, DataItem>> entries = dataItemMap.entrySet();
+                for (Map.Entry<String, DataItem> entry : entries) {
+                    DataItem dataItem = entry.getValue();
                     String fieldName = dataItem.getFieldName();
+                    String columnName = dataItem.getColumnName();
                     String fieldType = dataItem.getFieldType();
+                    if(StringUtils.isEmpty(columnName)) {
+                        columnName = fieldName;
+                    }
                     Object v = null;
                     switch(fieldType) {
-                        case "String": v = resultSet.getString(fieldName); break;
-                        case "Integer": v = resultSet.getInt(fieldName); break;
-                        case "Long": v = resultSet.getLong(fieldName); break;
-                        case "Date": v = resultSet.getDate(fieldName); break;
-                        case "BigDecimal": v = resultSet.getBigDecimal(fieldName); break;
+                        case "String": v = resultSet.getString(columnName); break;
+                        case "Integer": v = resultSet.getInt(columnName); break;
+                        case "Long": v = resultSet.getLong(columnName); break;
+                        case "Date": v = resultSet.getDate(columnName); break;
+                        case "BigDecimal": v = resultSet.getBigDecimal(columnName); break;
                     }
                     if(v != null) {
                         resultMap.put(fieldName, v);
                     }
-
                 }
+
                 System.out.println(resultSet);
                 return resultMap;
             }

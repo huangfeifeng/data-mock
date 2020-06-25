@@ -1,4 +1,4 @@
-package com.person.hff.mockdata.annotation.define;
+package com.person.hff.mockdata.annotation.data;
 
 import java.math.BigDecimal;
 import java.util.Date;

@@ -65,7 +65,7 @@ public class CommonService {
         Set<Class> classes = ClassScanner.getClasses(entitiesPackagePath);
 
         for (Class clazz: classes) {
-            DataFamily dataFamily = DataFamilyParser.parseDataFamily(clazz);
+            DataFamily dataFamily = DataFamilyParser.parse(clazz);
             if(null != dataFamily) {
                 dataFamilyMap.put(dataFamily.getTableName(), dataFamily);
             }
