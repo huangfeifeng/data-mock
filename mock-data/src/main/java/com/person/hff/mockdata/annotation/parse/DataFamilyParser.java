@@ -30,13 +30,12 @@ public class DataFamilyParser {
 
             String value = normalData.value();
             dataFamily.setTableName(value);
+            dataFamily.setClazz(clazz);
             Class<? extends ValueStrategy> valueStrategyClass = normalData.valueStrategy();
             ValueStrategy valueStrategy = new DefaultValueStrategy();
             try {
                 valueStrategy = valueStrategyClass.newInstance();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
+            } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
 
@@ -47,9 +46,9 @@ public class DataFamilyParser {
 
             System.out.println(value);
             System.out.println(Arrays.asList(declaredFields));
-            Map<String, Object> dataMap = new HashMap<String, Object>();
+            Map<String, Object> dataMap = new HashMap<>();
 
-            List<DataItem> dataItemList = new ArrayList<DataItem>();
+            List<DataItem> dataItemList = new ArrayList<>();
             dataFamily.setDataItemList(dataItemList);
             for (Field f : declaredFields) {
                 DataItem dataItem = new DataItem();
@@ -65,9 +64,7 @@ public class DataFamilyParser {
                     DataValue dataValue = f.getAnnotation(DataValue.class);
                     String dataStr = dataValue.value();
                     dataItem.setValue(dataStr);
-                    dataItem.setLoop(dataValue.loop());
-                    dataItem.setFormat(dataValue.format());
-                    dataItem.setDelimit(dataValue.delimit());
+
                     dataItem.setColumnName(dataValue.columnName());
                     if("".equals(dataStr)) {
                         Object objectValue = generateRandom(dataFamily.getValueStrategy(), fieldTypeName);
@@ -75,26 +72,6 @@ public class DataFamilyParser {
                     } else {
                         dataMap.put(fieldName, Constant.APOSTROPHES.replace("${value}", dataStr));
                     }
-
-                    continue;
-                }
-
-                switch (fieldTypeName) {
-                    case "String":
-                        dataMap.put(fieldName, "'" + UUIDUtil.uuid() + "'");
-                        break;
-                    case "Integer":
-                        dataMap.put(fieldName, NumberUtil.random(100));
-                        break;
-                    case "Long":
-                        dataMap.put(fieldName, NumberUtil.randomLong(100000000));
-                        break;
-                    case "BigDecimal":
-                        dataMap.put(fieldName, NumberUtil.randomBigDecimal(1000));
-                        break;
-                    case "Date":
-                        dataMap.put(fieldName, "'" + DateUtil.now() + "'");
-                        break;
                 }
             }
             System.out.println(dataMap);
@@ -217,13 +194,21 @@ public class DataFamilyParser {
             String value = normalData.value();
             dataFamily.setTableName(value);
 
+            Class<? extends ValueStrategy> valueStrategyClass = normalData.valueStrategy();
+            ValueStrategy valueStrategy = new DefaultValueStrategy();
+            try {
+                valueStrategy = valueStrategyClass.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            dataFamily.setValueStrategy(valueStrategy);
+
             Field[] declaredFields = clazz.getDeclaredFields();
 
-            System.out.println(value);
-            System.out.println(Arrays.asList(declaredFields));
-            Map<String, Object> dataMap = new HashMap<String, Object>();
+            //System.out.println(value);
+            //System.out.println(Arrays.asList(declaredFields));
 
-            List<DataItem> dataItemList = new ArrayList<DataItem>();
+            List<DataItem> dataItemList = new ArrayList<>();
             dataFamily.setDataItemList(dataItemList);
 
             for (Field f : declaredFields) {
@@ -240,11 +225,7 @@ public class DataFamilyParser {
                     DataValue dataValue = f.getAnnotation(DataValue.class);
                     String dataStr = dataValue.value();
                     dataItem.setValue(dataStr);
-                    dataItem.setLoop(dataValue.loop());
-                    dataItem.setFormat(dataValue.format());
-                    dataItem.setDelimit(dataValue.delimit());
                     dataItem.setColumnName(dataValue.columnName());
-                    continue;
                 }
 
 

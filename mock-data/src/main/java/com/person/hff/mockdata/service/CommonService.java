@@ -1,6 +1,6 @@
 package com.person.hff.mockdata.service;
 
-import com.person.hff.mockdata.Enum.RequestTypeEnum;
+import com.person.hff.mockdata.enums.RequestTypeEnum;
 import com.person.hff.mockdata.annotation.define.DataFamily;
 import com.person.hff.mockdata.annotation.parse.DataFamilyParser;
 import com.person.hff.mockdata.repository.CommonDao;

@@ -12,10 +12,4 @@ public @interface DataValue {
     
     String columnName();
 
-    boolean loop() default false;
-
-    String format() default "";
-
-    String delimit() default "";
-
 }

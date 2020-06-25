@@ -137,12 +137,14 @@ public class CommonDao {
         StringBuffer whereBuffer = new StringBuffer();
         Set<Map.Entry<String, Object>> entrySet = dataMap.entrySet();
         int size = dataMap.size();
+        Object[] params = new Object[size];
         int index = 0;
         whereBuffer.append(" Where ");
         for (Map.Entry<String, Object> entry : entrySet) {
             String key = entry.getKey();
+            params[index] = entry.getValue();
             index ++;
-            whereBuffer.append(key).append("=").append(Constant.APOSTROPHES.replace("${value}", entry.getValue().toString()));
+            whereBuffer.append(key).append("=").append(Constant.SQL_PLACEHOLDER);
             if(index < size) {
                 whereBuffer.append(" And ");
             }
@@ -151,7 +153,7 @@ public class CommonDao {
 
         System.out.println(sb);
 
-        List<Object> list = jdbcTemplate.query(sb.toString(), new RowMapper<Object>() {
+        List<Object> list = jdbcTemplate.query(sb.toString(), params, new RowMapper<Object>() {
             @Override
             public Object mapRow(ResultSet resultSet, int i) throws SQLException {
                 Map<String, Object> resultMap = new HashMap<>();

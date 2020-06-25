@@ -1,4 +1,4 @@
-package com.person.hff.mockdata.Enum;
+package com.person.hff.mockdata.enums;
 
 public enum RequestTypeEnum {
     GET("get"), POST("post"), PUT("put"), DELETE("delete");

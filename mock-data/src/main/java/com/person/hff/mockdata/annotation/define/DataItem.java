@@ -13,11 +13,5 @@ public class DataItem {
 
     private String value;
 
-    private String delimit;
-
-    private boolean loop;
-
-    private String format;
-
     private Class generatorClass;
 }
