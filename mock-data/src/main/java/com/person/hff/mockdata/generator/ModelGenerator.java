@@ -14,6 +14,8 @@ public class ModelGenerator {
 
 	private final static String packageName = "com.person.hff.mockdata.entities";
 
+	private final static String JSONField = "@JSONField(format = \"yyyy-MM-dd HH:mm:ss\")";
+
 	private static String templateEntity;
 
 	private static String templateField;
@@ -56,9 +58,10 @@ public class ModelGenerator {
 		//String tableName = "person";
         List<String> tableNames = ConnectionUtil.getTableNames();
         for (String tableName : tableNames) {
-        	if(!tableName.contains("_"))  {
+        	create(tableName);
+        	/*if(!tableName.contains("_"))  {
 				create(tableName);
-			}
+			}*/
         }
 
 	}
@@ -150,6 +153,11 @@ public class ModelGenerator {
 			
 			String propertyName = getPropertyName(columnName);
 			String template = templateField;
+			if("Date".equals(field)) {
+				template = template.replace("${JSONField}", JSONField);
+			} else {
+				template = template.replace("${JSONField}", "");
+			}
 			template = template.replace("${comment}", comment);
 			template = template.replace("${columnName}", columnName);
 			template = template.replace("${fieldType}", field);

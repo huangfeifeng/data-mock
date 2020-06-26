@@ -1,5 +1,6 @@
 package ${package};
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 import com.person.hff.mockdata.annotation.NormalData;
 import com.person.hff.mockdata.annotation.DataValue;

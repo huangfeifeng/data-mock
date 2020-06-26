@@ -1,5 +1,6 @@
 package com.person.hff.mockdata.annotation.parse;
 
+import com.alibaba.fastjson.JSON;
 import com.person.hff.mockdata.annotation.data.AbstractGenerator;
 import com.person.hff.mockdata.annotation.data.ValueStrategy;
 import com.person.hff.mockdata.annotation.define.DataFamily;
@@ -26,12 +27,15 @@ public class DataFamilyGenerator {
         String packagePath = "com.person.hff.mockdata.entities";
         Set<Class> classes = ClassScanner.getClasses(packagePath);
         for (Class clazz : classes) {
+            /*DataFamily dataFamily = DataFamilyParser.parse(clazz);
+            Map<String, Object> dataMap = generateDataMap(dataFamily);
+            System.out.println(dataMap);*/
             if(Alarm.class == clazz) {
                 DataFamily dataFamily = DataFamilyParser.parse(clazz);
-                Map<String, Object> dataMap = generateDataMap(dataFamily);
-                System.out.println(dataMap);
-                String tableName = dataFamily.getTableName();
-                insertToDB(dataMap, tableName);
+                Object entity = generate(dataFamily);
+                System.out.println(JSON.toJSON(entity));
+                /*String tableName = dataFamily.getTableName();
+                insertToDB(dataMap, tableName);*/
             }
         }
     }
@@ -48,6 +52,10 @@ public class DataFamilyGenerator {
 
             for (Field f : declaredFields) {
                 String fieldTypeName = f.getType().getSimpleName();
+                String fieldName = f.getName();
+                if(Constant.ID.equals(fieldName.toLowerCase())) {
+                    continue;
+                }
 
                 Object v = generateRandom(valueStrategy, fieldTypeName);
 

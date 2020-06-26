@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ConnectionUtil {
 
-	private static String targetUrl = "jdbc:mysql://localhost:3306/mgr?characterEncoding=UTF-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai";
+	private static String targetUrl = "jdbc:mysql://localhost:3306/mock-data?characterEncoding=UTF-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai";
 	private static String user = "root";
 	private static String password = "123456";
 	

@@ -49,7 +49,7 @@ public class CommonDao {
         for (Map.Entry<String, Object> entry : entrySet) {
             String key = entry.getKey();
             index ++;
-            if(!"id".equals(key)) {
+            if(!Constant.ID.equals(key.toLowerCase())) {
                 fields.append(key);
                 values.append(Constant.APOSTROPHES.replace("${value}", entry.getValue().toString()));
                 if(index < size) {
@@ -130,27 +130,32 @@ public class CommonDao {
 
         //final Class clazz = dataFamily.getClazz();
         final Map<String, DataItem> dataItemMap = dataFamily.getDataItemMap();
-
-        Map<String, Object> dataMap = data.get(0);
-
         StringBuffer sb = new StringBuffer();
+        Object[] params = null;
         sb.append("Select * From ").append(tableName);
-        StringBuffer whereBuffer = new StringBuffer();
-        Set<Map.Entry<String, Object>> entrySet = dataMap.entrySet();
-        int size = dataMap.size();
-        Object[] params = new Object[size];
-        int index = 0;
-        whereBuffer.append(" Where ");
-        for (Map.Entry<String, Object> entry : entrySet) {
-            String key = entry.getKey();
-            params[index] = entry.getValue();
-            index ++;
-            whereBuffer.append(key).append("=").append(Constant.SQL_PLACEHOLDER);
-            if(index < size) {
-                whereBuffer.append(" And ");
+
+        if(data != null && data.size() > 0) {
+            Map<String, Object> dataMap = data.get(0);
+
+            if(dataMap != null && dataMap.size() > 0) {
+                StringBuffer whereBuffer = new StringBuffer();
+                Set<Map.Entry<String, Object>> entrySet = dataMap.entrySet();
+                int size = dataMap.size();
+                params = new Object[size];
+                int index = 0;
+                whereBuffer.append(" Where ");
+                for (Map.Entry<String, Object> entry : entrySet) {
+                    String key = entry.getKey();
+                    params[index] = entry.getValue();
+                    index ++;
+                    whereBuffer.append(key).append("=").append(Constant.SQL_PLACEHOLDER);
+                    if(index < size) {
+                        whereBuffer.append(" And ");
+                    }
+                }
+                sb.append(whereBuffer);
             }
         }
-        sb.append(whereBuffer);
 
         System.out.println(sb);
 

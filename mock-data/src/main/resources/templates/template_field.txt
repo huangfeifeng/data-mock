@@ -1,5 +1,6 @@
     /**
     * ${comment}
     */
+    ${JSONField}
     @DataValue(columnName = "${columnName}")
     private ${fieldType} ${fieldName};
